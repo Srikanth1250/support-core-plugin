@@ -7,8 +7,8 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.54</version> <!-- ✅ Stable modern version -->
-    <relativePath/> <!-- Ensure it does not resolve a local POM -->
+    <version>4.54</version> <!-- Modern plugin parent -->
+    <relativePath/>
   </parent>
 
   <groupId>com.example.jenkins</groupId>
@@ -21,7 +21,7 @@
   <url>https://example.com/my-plugin</url>
 
   <properties>
-    <java.level>11</java.level> <!-- Jenkins plugins now use Java 11+ -->
+    <java.level>11</java.level> <!-- Java 11 is recommended -->
   </properties>
 
   <repositories>
@@ -39,12 +39,11 @@
   </pluginRepositories>
 
   <dependencies>
-    <!-- Example Jenkins dependency -->
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>script-security</artifactId>
-      <version>1242.vb_0065d3d5d6d</version>
-      <scope>compile</scope> <!-- Use compile instead of provided for test phase -->
+      <version>1223.v2b_52fd2c633c</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>
