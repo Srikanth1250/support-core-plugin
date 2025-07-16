@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -19,6 +19,19 @@
   <properties>
     <java.level>11</java.level>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Import the Jenkins plugin BOM so we don’t need to define plugin versions manually -->
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.387.x</artifactId>
+        <version>1376.v536a_4b_e1fce1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>
@@ -38,7 +51,6 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>script-security</artifactId>
-      <!-- Let BOM resolve version -->
     </dependency>
   </dependencies>
 </project>
