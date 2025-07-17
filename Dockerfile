@@ -1,21 +1,11 @@
-# Stage 1: Build the Jenkins plugin
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+# Use Maven with Java 17 (required by Jenkins plugins)
+FROM maven:3.9.6-eclipse-temurin-17
 
-WORKDIR /app
+# Set working directory
+WORKDIR /splunk-plugin
 
-# Copy source code into container
+# Copy source code into the container
 COPY . .
 
-# Build the plugin and skip tests (optional: remove `-DskipTests` if you want tests to run)
-RUN mvn clean package -DskipTests
-
-# Stage 2: Create a lightweight image with just the plugin
-FROM eclipse-temurin:17-jdk
-
-WORKDIR /plugin
-
-# Copy the HPI file from the builder stage
-COPY --from=builder /app/target/*.hpi ./my-jenkins-plugin.hpi
-
-# Display file info by default when container runs
-CMD ["ls", "-lh", "."]
+# Build and test the plugin
+CMD ["mvn", "test"]
