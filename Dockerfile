@@ -1,11 +1,12 @@
-# Use Maven with Java 17 (required by Jenkins plugins)
-FROM maven:3.9.6-eclipse-temurin-17
+FROM jenkins/jenkins:lts
 
-# Set working directory
-WORKDIR /splunk-plugin
+USER root
 
-# Copy source code into the container
-COPY . .
+# Optional: install curl if needed
+RUN apt-get update && apt-get install -y curl
 
-# Build and test the plugin
-CMD ["mvn", "test"]
+# Switch back to jenkins user
+USER jenkins
+
+# Install the unique-id plugin
+RUN jenkins-plugin-cli --plugins unique-id
