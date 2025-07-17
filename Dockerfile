@@ -1,25 +1,30 @@
-# Stage 1: Build the plugin
+# Stage 1: Build the Jenkins plugin
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
+
+# Install tools required by Jenkins plugin builds
+RUN apt-get update && apt-get install -y git zip
 
 WORKDIR /app
 
-# Avoid re-downloading dependencies if only code changes
+# Copy pom.xml first to leverage Docker cache
 COPY pom.xml .
+
+# Pre-fetch dependencies (faster rebuilds)
 RUN mvn dependency:go-offline
 
-# Now copy the rest of the project
+# Copy rest of the project
 COPY . .
 
 # Build the plugin
 RUN mvn clean package
 
-# Stage 2: Minimal image with just the .hpi file
+# Stage 2: Create a minimal image with just the .hpi
 FROM eclipse-temurin:17-jdk
 
 WORKDIR /plugin
 
-# Copy only the built .hpi plugin file
+# Copy the plugin file
 COPY --from=builder /app/target/*.hpi ./my-jenkins-plugin.hpi
 
-# Optional: list output
+# List output by default
 CMD ["ls", "-lh", "."]
