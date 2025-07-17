@@ -1,19 +1,11 @@
-# Stage 1 - Build
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+# Use Maven with Java 17 (required by Jenkins plugins)
+FROM maven:3.9.6-eclipse-temurin-17
 
-WORKDIR /app
+# Set working directory
+WORKDIR /splunk-plugin
 
-# Copy Maven files first for better caching
-COPY pom.xml .
-COPY src ./src
+# Copy source code into the container
+COPY . .
 
-# Use host Maven repository with a volume mount during docker run/build
-RUN mvn dependency:go-offline
-
-# Build the Jenkins plugin
-RUN mvn clean package
-
-# Stage 2 - Runtime
-FROM jenkins/jenkins:lts-jdk17
-
-COPY --from=builder /app/target/*.hpi /usr/share/jenkins/ref/plugins/
+# Build and test the plugin
+CMD ["mvn", "test"]
