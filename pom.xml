@@ -20,6 +20,7 @@
   <properties>
     <jenkins.version>2.479.3</jenkins.version>
     <java.level>11</java.level>
+    <sonar.java.binaries>${project.build.directory}</sonar.java.binaries>
   </properties>
 
   <dependencyManagement>
@@ -52,8 +53,17 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>script-security</artifactId>
-      <!-- Explicit version in case not in BOM -->
       <version>1.78.1</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>4.0.0.4121</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
